@@ -1,10 +1,123 @@
-function inherit(cls, superCls) {
-    // We use an intermediary empty constructor to create an
-    // inheritance chain, because using the super class' constructor
-    // might have side effects.
-    var construct = function () {};
-    construct.prototype = superCls.prototype;
-    cls.prototype = new construct;
-    cls.prototype.constructor = cls;
-    cls.super = superCls;
+var pitches = {
+  '0': {
+    'C': 16.35,
+    'C# / Db': 17.32,
+    'D': 18.35,
+    'D# / Eb': 19.45,
+    'E': 20.6,
+    'F': 21.83,
+    'F# / Gb': 23.12,
+    'G': 24.5,
+    'G# / Ab': 25.96,
+    'A': 27.5,
+    'A# / Bb': 29.14,
+    'B': 30.87,
+  },
+  '1': {
+    'C': 32.7,
+    'C# / Db': 34.65,
+    'D': 36.71,
+    'D# / Eb': 38.89,
+    'E': 41.2,
+    'F': 43.65,
+    'F# / Gb': 46.25,
+    'G': 49,
+    'G# / Ab': 51.91,
+    'A': 55,
+    'A# / Bb': 58.27,
+    'B': 61.74,
+  },
+  '2': {
+    'C': 65.41,
+    'C# / Db': 69.3,
+    'D': 73.42,
+    'D# / Eb': 77.78,
+    'E': 82.41,
+    'F': 87.31,
+    'F# / Gb': 92.5,
+    'G': 98,
+    'G# / Ab': 103.83,
+    'A': 110,
+    'A# / Bb': 116.54,
+    'B': 123.47,
+  },
+  '3': {
+    'C': 130.81,
+    'C# / Db': 138.59,
+    'D': 146.83,
+    'D# / Eb': 155.56,
+    'E': 164.81,
+    'F': 174.61,
+    'F# / Gb': 185,
+    'G': 196,
+    'G# / Ab': 207.65,
+    'A': 220,
+    'A# / Bb': 233.08,
+    'B': 246.94,
+  },
+  '4': {
+    'C': 261.63,
+    'C# / Db': 277.18,
+    'D': 293.66,
+    'D# / Eb': 311.13,
+    'E': 329.63,
+    'F': 349.23,
+    'F# / Gb': 369.99,
+    'G': 392,
+    'G# / Ab': 415.3,
+    'A': 440,
+    'A# / Bb': 466.16,
+    'B': 493.88,
+  },
+  '5': {
+    'C': 523.25,
+    'C# / Db': 554.37,
+    'D': 587.33,
+    'D# / Eb': 622.25,
+    'E': 659.26,
+    'F': 698.46,
+    'F# / Gb': 739.99,
+    'G': 783.99,
+    'G# / Ab': 830.61,
+    'A': 880,
+    'A# / Bb': 932.33,
+    'B': 987.77,
+  },
+  '6': {
+    'C': 1046.5,
+    'C# / Db': 1108.73,
+    'D': 1174.66,
+    'D# / Eb': 1244.51,
+    'E': 1318.51,
+    'F': 1396.91,
+    'F# / Gb': 1479.98,
+    'G': 1567.98,
+    'G# / Ab': 1661.22,
+    'A': 1760,
+    'A# / Bb': 1864.66,
+    'B': 1975.53,
+  },
+  '7': {
+    'C': 2093,
+    'C# / Db': 2217.46,
+    'D': 2349.32,
+    'D# / Eb': 2489.02,
+    'E': 2637.02,
+    'F': 2793.83,
+    'F# / Gb': 2959.96,
+    'G': 3135.96,
+    'G# / Ab': 3322.44,
+    'A': 3520,
+    'A# / Bb': 3729.31,
+    'B': 3951.07,
+  },
+  '8': {
+    'C': 4186.01
+  }
+};
+
+
+var adjustFrequency = function(initialFrequency, semitoneOffset) {
+  var freq = semitoneOffset ===0 ? initialFrequency : Math.exp (semitoneOffset * Math.log(2) / 12) * (initialFrequency);
+  return freq;
 }
